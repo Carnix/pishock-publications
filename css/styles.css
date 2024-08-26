@@ -1,0 +1,349 @@
+:root {
+    --black: #000;
+    --blackish-90: rgba(0, 0, 0, 0.90);
+    --blackish-80: rgba(0, 0, 0, 0.8);
+    --blackish-60: rgba(0, 0, 0, 0.60);
+    --blackish-50: rgba(0, 0, 0, 0.50);
+
+    --white: #fff;
+    --whiteish-90: rgba(255, 255, 255, 0.9);
+
+    --lightgrey: #ccc;
+    --lightgrey-90: rgba(245, 245, 245, 0.9);
+    --lightgrey-20: rgba(245, 245, 245, 0.2);
+
+    --mediumgrey: #999;
+    --darkgrey: #333;
+    --darkgrey-80: rgba(46, 46, 46, 0.8);
+
+    --darkgreybg-80: rgba(28, 28, 28, 0.8);
+
+    --greyshadow: rgba(55, 55, 55, 0.3);
+    --blackshadow: rgba(0, 0, 0, 0.7);
+
+    --red: #d32f2f;
+    --blue: #1976d2;
+
+    --bgimage: url('../img/cover_nowords_1563x2500.jpg');
+}
+
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: Garamond, Arial, sans-serif;
+    background-color: var(--darkgreybg-80);
+    color: var(--lightgrey-90);
+    line-height: 1.6;
+    padding: 0 1em;
+    background: var(--bgimage) top center no-repeat;
+    background-size: cover;
+    background-attachment: fixed;
+}
+
+/* Smooth scrolling */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Section styles */
+section {
+    padding: 4em 0;
+    text-align: center;
+    background-color: var(--darkgreybg-80);
+    box-shadow: 0 0 10px var(--blackshadow);
+    border-radius: 8px;
+    margin-bottom: 2em;
+    opacity: 0;
+    transform: translateY(50px);
+    transition: opacity 0.6s ease-out, transform 0.6s ease-out;
+}
+
+section#intro {
+    animation: fadeInImmediate 0.6s ease-out forwards;
+}
+
+section.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+h1, h2 {
+    color: var(--whiteish-90);
+    margin-bottom: 0.5em;
+}
+
+#intro {
+    padding: 6em 1em 1em 1em;
+    color: var(--whiteish-90);
+}
+
+#intro h1 {
+    font-size: 2.5em;
+    letter-spacing: 2px;
+    margin-bottom: 0.5em;
+}
+
+#intro p {
+    font-size: 2vw;
+}
+
+@media (max-width: 768px) {
+    #intro p {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: 500px) {
+    #intro p {
+        font-size: 4.5vw;
+    }
+}
+
+
+#intro h1 {
+    font-size: 8vw;
+    text-align: center;
+}
+
+#intro h1 span {
+    line-height: 7vw;
+    font-variant: small-caps;
+    display: block;
+}
+
+#intro h1 #title-2 {
+    font-size: 70%;
+}
+
+#intro h1 #title-3 {
+    position: relative;
+    top: -7px;
+}
+
+.titlify {
+    background: linear-gradient(to bottom, var(--mediumgrey), var(--white));
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+    text-shadow: 2px 2px 4px var(--greyshadow);
+}
+
+.byline {
+    color: var(--lightgrey);
+    text-align: center;
+    font-size: 5vw;
+}
+
+.subtitle {
+    font-size: 4vw;
+    margin: 15px 0px;
+}
+
+.intro-image {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+@media (min-width: 500px) {
+    .intro-image {
+        flex-direction: row;
+    }
+}
+
+.intro-image .intro-cover {
+    width: 200px;
+}
+
+.intro-image .author-image {
+    width: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.intro-image .author-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.greybox {
+    background-color: var(--lightgrey-20);
+}
+
+#synopsis {
+    background-color: var(--darkgrey-80);
+    padding: 2vw;
+}
+
+#synopsis p {
+    text-align: left;
+    font-size: 2vw;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 1em;
+    color: var(--lightgrey-90);
+}
+
+@media (max-width: 768px) {
+    #synopsis p {
+        font-size: 3vw;
+    }
+}
+
+@media (max-width: 500px) {
+    #synopsis p {
+        font-size: 4.5vw;
+    }
+}
+
+#synopsis button {
+    background-color: var(--red);
+    color: var(--white);
+    border: none;
+    padding: 0.75em 1.5em;
+    font-size: 1em;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+#synopsis button:hover {
+    background-color: var(--blue);
+}
+
+#buy {
+    background-color: var(--blackish-80);
+}
+
+#buy ul {
+    list-style: none;
+    display: flex;
+    justify-content: center;
+    gap: 2em;
+}
+
+#buy a {
+    text-decoration: none;
+    color: var(--blue);
+    font-size: 1.1em;
+    border-bottom: 2px solid transparent;
+    transition: border-bottom 0.3s ease;
+}
+
+#buy a:hover {
+    border-bottom: 2px solid var(--red);
+}
+
+#gallery {
+    position: relative;
+    overflow: hidden;
+    padding: 2em 1em;
+    background-color: var(--darkgrey-80);
+    text-align: center;
+}
+
+#contact {
+    opacity: 1;
+    background-color: var(--darkgrey-80);
+}
+
+#contact ul {
+    list-style: none;
+    padding: 0;
+}
+
+#contact .contact-icon {
+    width: 5vw;
+}
+
+#contact a {
+    text-decoration: none;
+    color: var(--red);
+    font-size: 1.2em;
+    transition: color 0.3s ease;
+}
+
+#contact a:hover {
+    color: var(--blue);
+}
+
+.copyblock {
+    text-align: left;
+    padding: 10px;
+}
+
+@media (max-width: 768px) {
+    #buy ul {
+        flex-direction: column;
+    }
+
+    #intro h1 {
+        font-size: 2em;
+    }
+
+    #intro p {
+        font-size: 1em;
+    }
+}
+
+@keyframes fadeInImmediate {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+/* Lightbox styles */
+.lightbox {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: rgba(0, 0, 0, 0.8);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+}
+
+.lightbox-content {
+    position: relative;
+    max-width: 30vw;
+    max-height: 100vh;
+}
+
+.lightbox img {
+    width: 100%;
+    height: auto;
+    display: block;
+}
+
+.lightbox-caption {
+    color: var(--white);
+    text-align: center;
+    margin-top: 10px;
+}
+
+.lightbox-close {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    font-size: 2em;
+    background: transparent;
+    border: none;
+    color: var(--white);
+    cursor: pointer;
+}
