@@ -1,9 +1,9 @@
-// scrollEffects.js
-
 /**
- * Callback function for Intersection Observer
- * @param {IntersectionObserverEntry[]} entries - The array of IntersectionObserverEntry objects
- * @param {IntersectionObserver} observer - The IntersectionObserver instance
+ * Handles intersection events for observed elements. Adds the 'visible' class to elements when they intersect,
+ * and stops observing them after they become visible.
+ *
+ * @param {IntersectionObserverEntry[]} entries - An array of IntersectionObserverEntry objects representing observed elements and their intersection status.
+ * @param {IntersectionObserver} observer - The IntersectionObserver instance responsible for observing the elements.
  */
 const handleIntersection = (entries, observer) => {
     entries.forEach(entry => {
@@ -15,7 +15,8 @@ const handleIntersection = (entries, observer) => {
 };
 
 /**
- * Initialize Intersection Observer and start observing elements
+ * Initializes the Intersection Observer for scroll effects and begins observing all section elements in the document.
+ * The observed sections will have the 'visible' class added once they enter the viewport, triggering any associated animations.
  */
 export const initScrollEffects = () => {
     const observerOptions = {

@@ -1,8 +1,11 @@
-// js/modules/gallery.js
-
+/**
+ * Loads a gallery of images from a JSON configuration file and populates the carousel.
+ *
+ * @param {string} configPath - The path to the JSON file containing image data.
+ * @returns {Promise<void>} A promise that resolves when the gallery is loaded.
+ */
 export const loadGallery = async (configPath) => {
     try {
-        // Fetch the JSON data
         const response = await fetch(configPath);
         if (!response.ok) {
             throw new Error('Network response was not ok');
@@ -22,7 +25,6 @@ export const loadGallery = async (configPath) => {
             img.dataset.caption = image.caption;
             img.classList.add('carousel-item');
 
-
             img.addEventListener('click', () => {
                 openLightbox(img.src, image.caption);
             });
@@ -36,9 +38,10 @@ export const loadGallery = async (configPath) => {
 };
 
 /**
- * Open the lightbox with the selected image
- * @param {string} src - The source URL of the image
- * @param {string} caption - The caption for the image
+ * Opens a lightbox with the selected image.
+ *
+ * @param {string} src - The source URL of the image.
+ * @param {string} caption - The caption for the image.
  */
 const openLightbox = (src, caption) => {
     const lightbox = document.createElement('div');
@@ -55,12 +58,10 @@ const openLightbox = (src, caption) => {
     lightbox.innerHTML = lightboxContent;
     document.body.appendChild(lightbox);
 
-    // Add event listener for closing the lightbox
     lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
         document.body.removeChild(lightbox);
     });
 
-    // Close the lightbox when clicking outside of the image
     lightbox.addEventListener('click', (event) => {
         if (event.target === lightbox) {
             document.body.removeChild(lightbox);
