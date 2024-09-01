@@ -15,7 +15,6 @@
 		<meta name="keywords" content="demons, angels, law enforcement, leo, firefighter, struggle, meditation, martial arts, police">
 		<title>Dennis Pishock: Demons & Angels</title>
 		<link rel="stylesheet" href="css/styles.css">
-		<link rel="stylesheet" href="css/carousel.css">
 
 		<script type="module" src="js/app.js"></script>
 	</head>
@@ -74,15 +73,10 @@
 
 		<section id="gallery">
 			<h2>Photo Gallery</h2>
-			<div id="carousel" class="carousel" role="region"></div>
+			<ol></ol>
 
-			<template id="gallery-slide-template">
-				<div class="slide" role="tabpanel">
-					<div class="slide-content">
-						<div class="slide-caption"></div>
-						<img src="" alt="">
-					</div>
-				</div>
+			<template id="gallery-item-template">
+				<li><img src="" data-caption="" alt=""></li>
 			</template>
 
 		</section>

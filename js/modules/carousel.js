@@ -1,287 +1,301 @@
 /**
+ * @typedef {Object} CarouselConfig
+ * @property {string} carouselSelector - CSS selector for the carousel container element.
+ * @property {string} slideSelector - CSS selector for the individual slide elements within the carousel.
+ * @property {boolean} [enableAutoplay=false] - Whether to enable autoplay for the carousel.
+ * @property {number|null} [autoplayInterval=2000] - Autoplay interval in milliseconds.
+ * @property {boolean} [enablePagination=true] - Whether to enable pagination for the carousel.
+ */
+
+/**
  * JavaScript Carousel
  *
- * This is a simple customizable carousel built with plain JavaScript,
- * which can be your starting point to build your own carousel solution.
+ * This function initializes and manages a customizable carousel.
  *
- * @param   {*} param0
- * @param   {Object} config - Configuration options for the carousel.
- * @param   {string} config.carouselSelector - CSS selector for the carousel container element.
- * @param   {string|null} [config.slideSelector=null] - CSS selector for the individual slide elements within the carousel.
- * @param   {boolean} [config.enableAutoplay=true] - Whether to enable autoplay for the carousel.
- * @param   {number|null} [config.autoplayInterval=2000] - Autoplay interval in milliseconds.
- * @param   {boolean} [config.enablePagination=true] - Whether to enable pagination for the carousel.
- * @returns {JSCarousel} Am instance of JSCarousel.
+ * @param {CarouselConfig} config - Configuration options for the carousel.
+ * @returns {Object} An object containing methods to create and destroy the carousel.
  */
 export const JSCarousel = ({
-	carouselSelector,
-	slideSelector = null,
-	enableAutoplay = false,
-	autoplayInterval = 2000,
-	enablePagination = true
+    carouselSelector,
+    slideSelector,
+    enableAutoplay = false,
+    autoplayInterval = 2000,
+    enablePagination = true,
 }) => {
-	// Initialize variables to keep track of carousel state
-	let currentSlideIndex = 0;
-	let prevBtn, nextBtn;
-	let autoplayTimer;
-	let paginationContainer;
+    /** @type {number} Tracks the current slide index. */
+    let currentSlideIndex = 0;
 
-	// Find the carousel element in the DOM
-	const carousel = document.querySelector(carouselSelector);
+    /** @type {HTMLElement} The main carousel container element. */
+    const carousel = document.querySelector(carouselSelector);
 
-	// If carousel element is not found, log an error and return null
-	if (!carousel) {
-		console.error("Specify a valid selector for the carousel.");
-		return null;
-	}
+    if (!carousel) {
+        console.error("Specify a valid selector for the carousel.");
+        return null;
+    }
 
-	// Find all slides within the carousel
-	const slides = carousel.querySelectorAll(slideSelector);
+    /** @type {NodeListOf<HTMLElement>} All the slide elements within the carousel. */
+    const slides = carousel.querySelectorAll(slideSelector);
 
-	// If no slides are found, log an error and return null
-	if (!slides.length) {
-		console.error("Specify a valid selector for slides.");
-		return null;
-	}
+    if (!slides.length) {
+        console.error("Specify a valid selector for slides.");
+        return null;
+    }
 
-	/*
-	 * Utility function to create and append HTML elements with
-	 * attributes and children
-	 */
-	const addElement = (tag, attributes, children) => {
-		const element = document.createElement(tag);
+    /** @type {HTMLElement} The container for pagination buttons. */
+    let paginationContainer;
 
-		if (attributes) {
-			// Set attributes for the element
-			Object.entries(attributes).forEach(([key, value]) => {
-				element.setAttribute(key, value);
-			});
-		}
+    /** @type {number} Timer ID for autoplay. */
+    let autoplayTimer;
 
-		if (children) {
-			// Set content for the element
-			if (typeof children === "string") {
-				element.textContent = children;
-			} else {
-				children.forEach((child) => {
-					if (typeof child === "string") {
-						element.appendChild(document.createTextNode(child));
-					} else {
-						element.appendChild(child);
-					}
-				});
-			}
-		}
+    /**
+     * Creates and appends an HTML element with attributes and children.
+     *
+     * @param {string} tag - The type of HTML element to create.
+     * @param {Object} attributes - A key-value pair of attributes to set on the element.
+     * @param {string|Array<HTMLElement|string>} [children] - Content or child elements to append.
+     * @returns {HTMLElement} The created HTML element.
+     */
+    const addElement = (tag, attributes, children) => {
+        const element = document.createElement(tag);
 
-		return element;
-	};
+        if (attributes) {
+            Object.entries(attributes).forEach(([key, value]) => {
+                element.setAttribute(key, value);
+            });
+        }
 
-	/*
-	 * Function to modify the DOM structure to fit the carousel's
-	 * requirements
-	 */
-	const tweakStructure = () => {
-		carousel.setAttribute("tabindex", "0");
+        if (children) {
+            if (typeof children === "string") {
+                element.textContent = children;
+            } else {
+                children.forEach((child) => {
+                    if (typeof child === "string") {
+                        element.appendChild(document.createTextNode(child));
+                    } else {
+                        element.appendChild(child);
+                    }
+                });
+            }
+        }
 
-		// Create a div for carousel inner content
-		const carouselInner = addElement("div", {
-			class: "carousel-inner"
-		});
-		carousel.insertBefore(carouselInner, slides[0]);
+        return element;
+    };
 
-		// Move slides into the carousel inner container
-		slides.forEach((slide) => {
-			carouselInner.appendChild(slide);
-		});
+    /**
+     * Adjusts the DOM structure to fit the carousel's requirements.
+     * Adds necessary wrappers and controls for the carousel.
+     */
+    const tweakStructure = () => {
+        carousel.setAttribute("tabindex", "0");
 
-		// Create and append previous and next buttons
-		prevBtn = addElement(
-			"btn", {
-				class: "carousel-btn carousel-btn--prev-next carousel-btn--prev",
-				"aria-label": "Previous Slide"
-			},
-			"<"
-		);
+        const carouselInner = addElement("div", { class: "carousel-inner" });
+        carousel.insertBefore(carouselInner, slides[0]);
 
-		nextBtn = addElement(
-			"btn", {
-				class: "carousel-btn carousel-btn--prev-next carousel-btn--next",
-				"aria-label": "Next Slide"
-			},
-			">"
-		);
+        slides.forEach((slide) => {
+            carouselInner.appendChild(slide);
+        });
 
-		//carouselInner.appendChild(prevBtn);
-		//carouselInner.appendChild(nextBtn);
+        if (enablePagination) {
+            paginationContainer = addElement("nav", {
+                class: "carousel-pagination",
+                role: "tablist",
+            });
+            carousel.appendChild(paginationContainer);
+        }
 
-		// If pagination is enabled, create and append pagination buttons
-		if (enablePagination) {
-			paginationContainer = addElement("nav", {
-				class: "carousel-pagination",
-				role: "tablist"
-			});
-			carousel.appendChild(paginationContainer);
-		}
+        slides.forEach((slide, index) => {
+            slide.style.transform = `translateX(${index * 100}%)`;
+            if (enablePagination) {
+                const paginationBtn = addElement(
+                    "btn",
+                    {
+                        class: `carousel-btn carousel-btn--${index + 1}`,
+                        role: "tab",
+                    },
+                    `${index + 1}`
+                );
 
-		/*
-		 * Set initial styles and event listeners for slides and pagination
-		 * buttons
-		 */
-		slides.forEach((slide, index) => {
-			slide.style.transform = `translateX(${index * 100}%)`;
-			if (enablePagination) {
-				const paginationBtn = addElement(
-					"btn", {
-						class: `carousel-btn caroursel-btn--${index + 1}`,
-						role: "tab"
-					},
-					`${index + 1}`
-				);
+                paginationContainer.appendChild(paginationBtn);
 
-				paginationContainer.appendChild(paginationBtn);
+                if (index === 0) {
+                    paginationBtn.classList.add("carousel-btn--active");
+                    paginationBtn.setAttribute("aria-selected", true);
+                }
 
-				if (index === 0) {
-					paginationBtn.classList.add("carousel-btn--active");
-					paginationBtn.setAttribute("aria-selected", true);
-				}
+                paginationBtn.addEventListener("click", () => {
+                    handlePaginationBtnClick(index);
+                });
+            }
+        });
+    };
 
-				paginationBtn.addEventListener("click", () => {
-					handlePaginationBtnClick(index);
-				});
-			}
-		});
-	};
+    /**
+     * Adjusts the positions of slides based on the current slide index.
+     */
+    const adjustSlidePosition = () => {
+        slides.forEach((slide, i) => {
+            slide.style.transform = `translateX(${100 * (i - currentSlideIndex)}%)`;
+        });
+    };
 
-	// Function to adjust slide positions
-	const adjustSlidePosition = () => {
-		slides.forEach((slide, i) => {
-			slide.style.transform = `translateX(${100 * (i - currentSlideIndex)}%)`;
-		});
-	};
+    /**
+     * Updates the appearance of pagination buttons to reflect the current slide.
+     */
+    const updatePaginationBtns = () => {
+        const btns = paginationContainer.children;
+        const prevActiveBtns = Array.from(btns).filter((btn) =>
+            btn.classList.contains("carousel-btn--active")
+        );
+        const currentActiveBtn = btns[currentSlideIndex];
 
-	// Function to update pagination buttons
-	const updatePaginationBtns = () => {
-		const btns = paginationContainer.children;
-		const prevActiveBtns = Array.from(btns).filter((btn) =>
-			btn.classList.contains("carousel-btn--active")
-		);
-		const currentActiveBtn = btns[currentSlideIndex];
+        prevActiveBtns.forEach((btn) => {
+            btn.classList.remove("carousel-btn--active");
+            btn.removeAttribute("aria-selected");
+        });
+        if (currentActiveBtn) {
+            currentActiveBtn.classList.add("carousel-btn--active");
+            currentActiveBtn.setAttribute("aria-selected", true);
+        }
+    };
 
-		prevActiveBtns.forEach((btn) => {
-			btn.classList.remove("carousel-btn--active");
-			btn.removeAttribute("aria-selected");
-		});
-		if (currentActiveBtn) {
-			currentActiveBtn.classList.add("carousel-btn--active");
-			currentActiveBtn.setAttribute("aria-selected", true);
-		}
-	};
+    /**
+     * Updates the carousel's state, including slide positions and pagination buttons.
+     */
+    const updateCarouselState = () => {
+        if (enablePagination) {
+            updatePaginationBtns();
+        }
+        adjustSlidePosition();
+    };
 
-	// Function to update carousel state
-	const updateCarouselState = () => {
-		if (enablePagination) {
-			updatePaginationBtns();
-		}
-		adjustSlidePosition();
-	};
+    /**
+     * Moves the carousel to the next or previous slide based on the direction.
+     *
+     * @param {string} direction - The direction to move the slide ('next' or 'prev').
+     */
+    const moveSlide = (direction) => {
+        const newSlideIndex =
+            direction === "next"
+                ? (currentSlideIndex + 1) % slides.length
+                : (currentSlideIndex - 1 + slides.length) % slides.length;
+        currentSlideIndex = newSlideIndex;
+        updateCarouselState();
+    };
 
-	// Function to move slide based on direction
-	const moveSlide = (direction) => {
-		const newSlideIndex =
-			direction === "next" ?
-			(currentSlideIndex + 1) % slides.length :
-			(currentSlideIndex - 1 + slides.length) % slides.length;
-		currentSlideIndex = newSlideIndex;
-		updateCarouselState();
-	};
+    /**
+     * Event handler for pagination button clicks.
+     *
+     * @param {number} index - The index of the slide to move to.
+     */
+    const handlePaginationBtnClick = (index) => {
+        currentSlideIndex = index;
+        updateCarouselState();
+    };
 
-	// Event handler for pagination button click
-	const handlePaginationBtnClick = (index) => {
-		currentSlideIndex = index;
-		updateCarouselState();
-	};
+    /**
+     * Event handler for keyboard navigation.
+     *
+     * @param {KeyboardEvent} event - The keyboard event.
+     */
+    const handleKeyboardNav = (event) => {
+        if (!carousel.contains(event.target)) return;
+        if (event.defaultPrevented) return;
 
-	// Event handlers for previous and next button clicks
-	const handlePrevBtnClick = () => moveSlide("prev");
+        switch (event.key) {
+            case "ArrowLeft":
+                moveSlide("prev");
+                break;
+            case "ArrowRight":
+                moveSlide("next");
+                break;
+            default:
+                return;
+        }
 
-	const handleNextBtnClick = () => moveSlide("next");
+        event.preventDefault();
+    };
 
-	// Event handler for keyboard navigation
-	const handleKeyboardNav = (event) => {
-		if (!carousel.contains(event.target)) return;
-		if (event.defaultPrevented) return;
+    /**
+     * Starts the autoplay functionality of the carousel.
+     */
+    const startAutoplay = () => {
+        autoplayTimer = setInterval(() => {
+            moveSlide("next");
+        }, autoplayInterval);
+    };
 
-		switch (event.key) {
-			case "ArrowLeft":
-				moveSlide("prev");
-				break;
-			case "ArrowRight":
-				moveSlide("next");
-				break;
-			default:
-				return;
-		}
+    /**
+     * Stops the autoplay functionality of the carousel.
+     */
+    const stopAutoplay = () => clearInterval(autoplayTimer);
 
-		event.preventDefault();
-	};
+    /**
+     * Event handler for mouse enter events to stop autoplay.
+     */
+    const handleMouseEnter = () => stopAutoplay();
 
-	// Function to start autoplay
-	const startAutoplay = () => {
-		autoplayTimer = setInterval(() => {
-			moveSlide("next");
-		}, autoplayInterval);
-	};
+    /**
+     * Event handler for mouse leave events to start autoplay.
+     */
+    const handleMouseLeave = () => startAutoplay();
 
-	// Function to stop autoplay
-	const stopAutoplay = () => clearInterval(autoplayTimer);
+    /**
+     * Attaches event listeners to the relevant carousel elements.
+     */
+    const attachEventListeners = () => {
+        carousel.addEventListener("keydown", handleKeyboardNav);
+        if (enableAutoplay && autoplayInterval !== null) {
+            carousel.addEventListener("mouseenter", handleMouseEnter);
+            carousel.addEventListener("mouseleave", handleMouseLeave);
+        }
 
-	// Event handlers for mouse enter and leave events for autoplay
-	const handleMouseEnter = () => stopAutoplay();
+        // Swipe controls
+        let startX = 0;
+        let endX = 0;
 
-	const handleMouseLeave = () => startAutoplay();
+        carousel.addEventListener("touchstart", (event) => {
+            startX = event.touches[0].clientX;
+        });
 
-	// Attach event listeners to relevant elements
-	const attachEventListeners = () => {
-		prevBtn.addEventListener("click", handlePrevBtnClick);
-		nextBtn.addEventListener("click", handleNextBtnClick);
-		carousel.addEventListener("keydown", handleKeyboardNav);
-		if (enableAutoplay && autoplayInterval !== null) {
-			carousel.addEventListener("mouseenter", handleMouseEnter);
-			carousel.addEventListener("mouseleave", handleMouseLeave);
-		}
-	};
+        carousel.addEventListener("touchmove", (event) => {
+            endX = event.touches[0].clientX;
+        });
 
-	// Function to initialize the carousel
-	const create = () => {
-		tweakStructure();
-		attachEventListeners();
-		if (enableAutoplay && autoplayInterval !== null) {
-			startAutoplay();
-		}
-	};
+        carousel.addEventListener("touchend", () => {
+            if (startX - endX > 50) {
+                moveSlide("next");
+            } else if (endX - startX > 50) {
+                moveSlide("prev");
+            }
+        });
+    };
 
-	// Function to destroy the carousel
-	const destroy = () => {
-		// Remove event listeners and stop autoplay if enabled
-		if (enablePagination) {
-			prevBtn.removeEventListener("click", handlePrevBtnClick);
-			nextBtn.removeEventListener("click", handleNextBtnClick);
-			carousel.removeEventListener("keydown", handleKeyboardNav);
-		}
+    /**
+     * Initializes the carousel by setting up the structure and event listeners.
+     */
+    const create = () => {
+        tweakStructure();
+        attachEventListeners();
+        if (enableAutoplay && autoplayInterval !== null) {
+            startAutoplay();
+        }
+    };
 
-		if (enableAutoplay && autoplayInterval !== null) {
-			carousel.removeEventListener("mouseenter", handleMouseEnter);
-			carousel.removeEventListener("mouseleave", handleMouseLeave);
-			stopAutoplay();
-		}
-	};
+    /**
+     * Destroys the carousel by removing event listeners and stopping autoplay.
+     */
+    const destroy = () => {
+        if (enablePagination) {
+            paginationContainer.innerHTML = "";
+        }
 
-	/*
-	 * Return an object containing methods to create and destroy the
-	 * carousel
-	 */
-	return {
-		create,
-		destroy
-	};
+        stopAutoplay();
+        carousel.removeEventListener("keydown", handleKeyboardNav);
+        carousel.innerHTML = ""; // Clear carousel inner content
+    };
+
+    return {
+        create,
+        destroy,
+    };
 };

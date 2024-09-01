@@ -1,0 +1,21 @@
+#gallery ol {
+    display: inline-flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+}
+
+#gallery ol li {
+    list-style: none;
+}
+
+#gallery li{
+    width: 20%;
+    height: 100%;
+    padding: 0.5vw;
+}
+
+#gallery img {
+    width: 100%;
+    height: auto;
+    cursor: pointer;
+}
