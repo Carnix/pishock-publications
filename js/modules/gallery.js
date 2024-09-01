@@ -1,3 +1,43 @@
+const settings = {
+    startX: 0,
+    endX: 0,
+    isOpen: true,
+    openable: true,
+    closeDelayTimeout: null,
+    canOpenLightbox: true,
+    lightboxReopenDelay: 150,
+    debug: false,
+}
+
+const originalConsoleLog = console.log;
+const originalConsoleError = console.error;
+const originalConsoleInfo = console.info;
+const originalConsoleWarn = console.warn;
+
+console.log = function(...args) {
+    if (settings.debug) {
+        originalConsoleLog.apply(console, args);
+    }
+};
+
+console.error = function(...args) {
+    if (settings.debug) {
+        originalConsoleError.apply(console, args);
+    }
+};
+
+console.info = function(...args) {
+    if (settings.debug) {
+        originalConsoleInfo.apply(console, args);
+    }
+};
+
+console.warn = function(...args) {
+    if (settings.debug) {
+        originalConsoleWarn.apply(console, args);
+    }
+};
+
 /**
  * Loads a gallery of images from a JSON configuration file and populates the carousel.
  *
@@ -47,6 +87,11 @@ export const loadGallery = async (configPath) => {
 const openLightbox = (src, caption) => {
     console.log('openLightbox');
 
+    if (!settings.canOpenLightbox) {
+        console.log("Too soon!!");
+        return;
+    }
+
     document.querySelectorAll('.lightbox').forEach(lightbox => document.body.removeChild(lightbox));
     
     const lightbox = document.createElement('div');
@@ -69,20 +114,28 @@ const openLightbox = (src, caption) => {
     window.addEventListener("touchend", handleTouchEnd);
 
     lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
+        console.log('click close')
         closeLightbox(lightbox);
     });
 };
 
 const closeLightbox = (lightbox) => {
+    console.log('closeLightbox');
 
     document.body.removeChild(lightbox);
     document.querySelectorAll('#gallery li.active').forEach(item => item.classList.remove('active'));
+
+    settings.isOpen = false;
 
     window.removeEventListener("keydown", keyboardControls);
     window.removeEventListener("touchstart", handleTouchStart);
     window.removeEventListener("touchmove", handleTouchMove);
     window.removeEventListener("touchend", handleTouchEnd);
 
+    settings.canOpenLightbox = false;
+    settings.closeDelayTimeout = setTimeout(() => {
+        settings.canOpenLightbox = true;
+    }, settings.lightboxReopenDelay);    
 };
 
 const keyboardControls = (event) => {
@@ -102,23 +155,27 @@ const keyboardControls = (event) => {
     }
 };
 
-const touchData = {
-    startX: 0,
-    endX: 0,
-}
-
 const handleTouchStart = (event) => {
-    touchData.startX = event.touches[0].clientX;
+    console.log(event.target);
+    if(event.target.nodeName !== 'IMG'){
+        closeLightbox(document.querySelector('.lightbox'));
+        settings.isOpen = false;
+        return;
+    }
+    settings.startX = event.touches[0].clientX;
+    settings.isOpen = true;
 };
 
 const handleTouchMove = (event) => {
-    touchData.endX = event.touches[0].clientX;
+    settings.endX = event.touches[0].clientX;
 };
 
 const handleTouchEnd = () => {
-    show(Math.sign(touchData.startX - touchData.endX));
-    touchData.startX = 0;
-    touchData.endX = 0;
+    if(settings.isOpen === true){
+        show(Math.sign(settings.startX - settings.endX));
+    }
+    settings.startX = 0;
+    settings.endX = 0;
 };
 
 const resetActive = (resetToIndex) => {
@@ -127,6 +184,7 @@ const resetActive = (resetToIndex) => {
 }
 
 const show = (showIndex) => {
+    console.log('show', showIndex);
     const currentIndex = Number(document.querySelector('#gallery li.active').dataset.index);
     let indexToShow = currentIndex + showIndex;
 
