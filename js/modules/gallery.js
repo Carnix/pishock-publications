@@ -12,13 +12,12 @@ export const loadGallery = async (configPath) => {
         }
         const images = await response.json();
 
-        const container = document.getElementById('carousel');
-        const template = document.getElementById('gallery-slide-template').content;
+        const container = document.querySelector('#gallery ol');
+        const template = document.getElementById('gallery-item-template').content;
 
         images.forEach(image => {
             const item = document.importNode(template, true);
             const img = item.querySelector('img');
-            const caption = item.querySelector('.slide-caption');
 
             img.src = `img/gallery/${image.src}`;
             img.alt = image.alt;
@@ -44,6 +43,8 @@ export const loadGallery = async (configPath) => {
  * @param {string} caption - The caption for the image.
  */
 const openLightbox = (src, caption) => {
+    document.querySelectorAll('.lightbox').forEach(lightbox => document.body.removeChild(lightbox));
+    
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
 
