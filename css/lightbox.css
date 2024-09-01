@@ -27,6 +27,7 @@
     color: var(--white);
     text-align: center;
     margin-top: 10px;
+    padding: 1vw;
 }
 
 .lightbox-close {
@@ -34,8 +35,9 @@
     top: 10px;
     right: 10px;
     font-size: 2em;
-    background: transparent;
+    background-color: var(--black);
     border: none;
     color: var(--white);
     cursor: pointer;
+    padding: 0px 8px;
 }
