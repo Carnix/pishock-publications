@@ -135,9 +135,11 @@ const keyboardControls = (event) => {
     event.preventDefault();
 
     switch (event.key) {
+        case "ArrowUp":
         case "ArrowLeft":
             show(-1);
             break;
+        case "ArrowDown":
         case "ArrowRight":
             show(1);
             break;
