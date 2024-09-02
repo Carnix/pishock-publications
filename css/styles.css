@@ -224,26 +224,102 @@ h1, h2 {
 
 #buy {
     background-color: var(--blackish-80);
+    padding: 2em 1em;
+    text-align: center;
 }
 
 #buy ul {
     list-style: none;
     display: flex;
     justify-content: center;
-    gap: 2em;
+    gap: 1.5em;
+    padding: 0;
 }
 
-#buy a {
+.buy-button {
+    background-color: var(--blue);
+    color: var(--white);
+    padding: 0.75em 1.5em;
+    border-radius: 5px;
+    font-size: 1.2em;
+    text-transform: uppercase;
     text-decoration: none;
-    color: var(--blue);
-    font-size: 1.1em;
-    border-bottom: 2px solid transparent;
-    transition: border-bottom 0.3s ease;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-block;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
 }
 
-#buy a:hover {
-    border-bottom: 2px solid var(--red);
+.buy-button:hover {
+    background-color: var(--red);
+    transform: translateY(-2px);
 }
+
+.buy-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+}
+
+#reviews {
+    margin-top: 2em;
+    padding: 1vw;
+    background-color: var(--blackish-60);
+    border-radius: 8px;
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+}
+
+#reviews h3 {
+    color: var(--white);
+    font-size: 1.5em;
+    margin-bottom: 1em;
+    text-align: center;
+}
+
+.review {
+    padding: 1em;
+    border-bottom: 1px solid var(--greyish-60);
+}
+
+.review:last-child {
+    border-bottom: none;
+}
+
+.review-header {
+    font-size: 0.9em;
+    color: var(--greyish-40);
+    margin-bottom: 0.5em;
+}
+
+.review-stars {
+    color: rgb(255, 164, 28);
+    font-weight: bold;
+}
+
+.reviewer-name {
+    font-weight: bold;
+    color: var(--white);
+}
+
+.review-date-location {
+    color: var(--greyish-40);
+}
+
+.review-text {
+    color: var(--white);
+    font-size: 1em;
+    line-height: 1.5;
+}
+
+.review-text a.read-full {
+    color: var(--blue);
+    text-decoration: none;
+    font-weight: bold;
+}
+
+.review-text a.read-full:hover {
+    text-decoration: underline;
+}
+
+
 
 #gallery {
     position: relative;
