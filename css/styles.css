@@ -1,8 +1,6 @@
 @import url(gallery.css);
 @import url(lightbox.css);
-/*
-    @import url(carousel.css);
-*/
+
 
 :root {
     --black: #000;
@@ -144,12 +142,6 @@ h1, h2 {
     gap: 20px;
 }
 
-@media (min-width: 500px) {
-    .intro-image {
-        flex-direction: row;
-    }
-}
-
 .intro-image .intro-cover {
     width: 200px;
 }
@@ -181,21 +173,6 @@ h1, h2 {
     margin: 0 auto;
     padding: 1em;
     color: var(--lightgrey-90);
-}
-
-@media (max-width: 768px) {
-    #synopsis p {
-        font-size: 3vw;
-    }
-}
-
-@media (max-width: 500px) {
-    #synopsis {
-        padding-bottom: 5vw;
-    }
-    #synopsis p {
-        font-size: 4.5vw;
-    }
 }
 
 #synopsis button {
@@ -309,8 +286,6 @@ h1, h2 {
     text-decoration: underline;
 }
 
-
-
 #gallery {
     position: relative;
     overflow: hidden;
@@ -324,13 +299,18 @@ h1, h2 {
     background-color: var(--darkgrey-80);
 }
 
-#contact ul {
+.contact-list {
+    margin-top: 20px;
     list-style: none;
     padding: 0;
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+    gap: 20px;
 }
 
-#contact .contact-icon {
-    width: 5vw;
+.contact-icon {
+    width: 20vw;
 }
 
 #contact a {
@@ -343,6 +323,7 @@ h1, h2 {
 #contact a:hover {
     color: var(--blue);
 }
+
 
 .copyblock {
     text-align: left;
@@ -366,6 +347,10 @@ h1, h2 {
     #intro h1 span {
         line-height: 12vw;
     }
+
+    #synopsis p {
+        font-size: 3vw;
+    }    
 }
 
 @media (max-width: 500px) {
@@ -381,8 +366,25 @@ h1, h2 {
     #intro h1 span {
         line-height: 12vw;
     }
+
+    #synopsis {
+        padding-bottom: 5vw;
+    }
+
+    #synopsis p {
+        font-size: 4.5vw;
+    }
 }
 
+@media (min-width: 500px) {
+    .intro-image {
+        flex-direction: row;
+    }
+}
+
+@media (max-width: 500px) {
+
+}
 
 @keyframes fadeInImmediate {
     0% {
