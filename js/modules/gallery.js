@@ -50,7 +50,7 @@ export const loadGallery = async (configPath) => {
 
             img.addEventListener('click', () => {
                 img.parentNode.classList.add('active');
-                openLightbox(img.src, image.caption);
+                openLightbox(img.src, image.caption, index);
             });
 
             container.appendChild(item);
@@ -67,7 +67,7 @@ export const loadGallery = async (configPath) => {
  * @param {string} src - The source URL of the image.
  * @param {string} caption - The caption for the image.
  */
-const openLightbox = (src, caption) => {
+const openLightbox = (src, caption, index) => {
     console.log('openLightbox');
 
     if (!settings.canOpenLightbox) {
@@ -83,6 +83,7 @@ const openLightbox = (src, caption) => {
     const img = document.createElement('img');
     img.src = src;
     img.alt = caption;
+    img.dataset.index = index;
 
     const captionDiv = document.createElement('div');
     captionDiv.className = 'lightbox-caption';
@@ -101,15 +102,19 @@ const openLightbox = (src, caption) => {
     lightbox.appendChild(lightboxContent);
     document.body.appendChild(lightbox);
 
-    window.addEventListener("keydown", keyboardControls);
-    window.addEventListener("touchstart", handleTouchStart);
-    window.addEventListener("touchmove", handleTouchMove);
-    window.addEventListener("touchend", handleTouchEnd);
+    window.addEventListener('keydown', keyboardControls);
+    window.addEventListener('touchstart', handleTouchStart);
+    window.addEventListener('touchmove', handleTouchMove);
+    window.addEventListener('touchend', handleTouchEnd);
+
+    img.addEventListener('click', show);
 
     lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
         console.log('click close')
         closeLightbox(lightbox);
     });
+
+
 };
 
 const closeLightbox = (lightbox) => {
@@ -120,10 +125,10 @@ const closeLightbox = (lightbox) => {
 
     settings.isOpen = false;
 
-    window.removeEventListener("keydown", keyboardControls);
-    window.removeEventListener("touchstart", handleTouchStart);
-    window.removeEventListener("touchmove", handleTouchMove);
-    window.removeEventListener("touchend", handleTouchEnd);
+    window.removeEventListener('keydown', keyboardControls);
+    window.removeEventListener('touchstart', handleTouchStart);
+    window.removeEventListener('touchmove', handleTouchMove);
+    window.removeEventListener('touchend', handleTouchEnd);
 
     settings.canOpenLightbox = false;
     settings.closeDelayTimeout = setTimeout(() => {
@@ -169,7 +174,7 @@ const handleTouchMove = (event) => {
     settings.endX = event.touches[0].clientX;
 };
 
-const handleTouchEnd = () => {
+const handleTouchEnd = (event) => {
     if (event.touches.length > 1) { return; }
     if(settings.isOpen === true){
         show(Math.sign(settings.startX - settings.endX));
@@ -184,7 +189,11 @@ const resetActive = (resetToIndex) => {
 }
 
 const show = (showIndex) => {
+    if(showIndex.type){
+        showIndex = 1;
+    }
     console.log('show', showIndex);
+
     const currentIndex = Number(document.querySelector('#gallery li.active').dataset.index);
     let indexToShow = currentIndex + showIndex;
 
@@ -194,6 +203,7 @@ const show = (showIndex) => {
 
     const setToSrc = document.querySelector(`#gallery li[data-index='${indexToShow}'] img`).src;
     const setToCaption = document.querySelector(`#gallery li[data-index='${indexToShow}'] img`).dataset.caption;
+
     resetActive(indexToShow);
-    openLightbox(setToSrc, setToCaption);
+    openLightbox(setToSrc, setToCaption, indexToShow);
 }
