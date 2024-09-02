@@ -7,36 +7,19 @@ const settings = {
     canOpenLightbox: true,
     lightboxReopenDelay: 150,
     debug: false,
-}
-
-const originalConsoleLog = console.log;
-const originalConsoleError = console.error;
-const originalConsoleInfo = console.info;
-const originalConsoleWarn = console.warn;
-
-console.log = function(...args) {
-    if (settings.debug) {
-        originalConsoleLog.apply(console, args);
-    }
+    original: {}
 };
 
-console.error = function(...args) {
-    if (settings.debug) {
-        originalConsoleError.apply(console, args);
-    }
-};
+const consoleMethods = ['log', 'error', 'info', 'warn'];
 
-console.info = function(...args) {
-    if (settings.debug) {
-        originalConsoleInfo.apply(console, args);
-    }
-};
-
-console.warn = function(...args) {
-    if (settings.debug) {
-        originalConsoleWarn.apply(console, args);
-    }
-};
+consoleMethods.forEach(method => {
+    settings.original[method] = console[method];
+    console[method] = function(...args) {
+        if (settings.debug) {
+            settings.original[method].apply(console, args);
+        }
+    };
+});
 
 /**
  * Loads a gallery of images from a JSON configuration file and populates the carousel.
