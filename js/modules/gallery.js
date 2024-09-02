@@ -140,6 +140,9 @@ const keyboardControls = (event) => {
 
 const handleTouchStart = (event) => {
     console.log(event.target);
+
+    if (event.touches.length > 1) { return; }
+
     if(event.target.nodeName !== 'IMG'){
         closeLightbox(document.querySelector('.lightbox'));
         settings.isOpen = false;
@@ -150,10 +153,12 @@ const handleTouchStart = (event) => {
 };
 
 const handleTouchMove = (event) => {
+    if (event.touches.length > 1) { return; }
     settings.endX = event.touches[0].clientX;
 };
 
 const handleTouchEnd = () => {
+    if (event.touches.length > 1) { return; }
     if(settings.isOpen === true){
         show(Math.sign(settings.startX - settings.endX));
     }
