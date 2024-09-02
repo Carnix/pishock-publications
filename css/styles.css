@@ -191,7 +191,6 @@ h1, h2 {
 #synopsis p {
     text-align: left;
     font-size: 2vw;
-    max-width: 800px;
     margin: 0 auto;
     padding: 1em;
     color: var(--lightgrey-90);
