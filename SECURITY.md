@@ -2,9 +2,11 @@
 
 ## Supported Versions
 
+Only the most recent version, as indicated in Releases, is supported. There is no support, expressed or implied, for older versions.  Likewise, we will provide no support for cloned, forked, or otherwise duplicated versions.
+
 | Version | Supported          |
 | ------- | ------------------ |
-| 0.0.x   | :white_check_mark: |
+| 0.0.1   | :white_check_mark: |
 
 
 ## Reporting a Vulnerability
