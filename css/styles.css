@@ -1,7 +1,7 @@
 @import url(gallery.css);
 @import url(lightbox.css);
 
-
+/* Color Variables */
 :root {
     --black: #000;
     --blackish-90: rgba(0, 0, 0, 0.90);
@@ -31,10 +31,15 @@
     --bgimage: url('../img/cover_nowords_1563x2500.jpg');
 }
 
+/* Base Styles */
 * {
     margin: 0;
     padding: 0;
     box-sizing: border-box;
+}
+
+html {
+    scroll-behavior: smooth;
 }
 
 body {
@@ -46,10 +51,6 @@ body {
     background: var(--bgimage) top center no-repeat;
     background-size: cover;
     background-attachment: fixed;
-}
-
-html {
-    scroll-behavior: smooth;
 }
 
 section {
@@ -64,13 +65,20 @@ section {
     transition: opacity 0.6s ease-out, transform 0.6s ease-out;
 }
 
-section#intro {
-    animation: fadeInImmediate 0.6s ease-out forwards;
-}
-
 section.visible {
     opacity: 1;
     transform: translateY(0);
+}
+
+@keyframes fadeInImmediate {
+    0% {
+        opacity: 0;
+        transform: translateY(50px);
+    }
+    100% {
+        opacity: 1;
+        transform: translateY(0);
+    }
 }
 
 h1, h2 {
@@ -78,24 +86,16 @@ h1, h2 {
     margin-bottom: 0.5em;
 }
 
+/* Intro Section */
 #intro {
     padding: 6em 1em 1em 1em;
     color: var(--whiteish-90);
 }
 
 #intro h1 {
-    font-size: 2.5em;
+    font-size: 12vw;
     letter-spacing: 12px;
     margin-bottom: 0.5em;
-}
-
-#intro p {
-    font-size: 2vw;
-}
-
-#intro h1 {
-    font-size: 12vw;
-    text-align: center;
 }
 
 #intro h1 span {
@@ -113,6 +113,37 @@ h1, h2 {
     top: -7px;
 }
 
+#intro p {
+    font-size: 2vw;
+}
+
+.intro-image {
+    margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    gap: 20px;
+}
+
+.intro-image .intro-cover,
+.intro-image .author-image {
+    width: 200px;
+}
+
+.intro-image .author-image {
+    border-radius: 50%;
+    overflow: hidden;
+}
+
+.intro-image .author-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+/* Typography */
 .titlify {
     background: linear-gradient(to bottom, var(--mediumgrey), var(--white));
     -webkit-background-clip: text;
@@ -132,36 +163,7 @@ h1, h2 {
     margin: 15px 0px;
 }
 
-.intro-image {
-    margin-top: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    text-align: center;
-    gap: 20px;
-}
-
-.intro-image .intro-cover {
-    width: 200px;
-}
-
-.intro-image .author-image {
-    width: 200px;
-    border-radius: 50%;
-    overflow: hidden;
-}
-
-.intro-image .author-image img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-}
-
-.greybox {
-    background-color: var(--lightgrey-20);
-}
-
+/* Synopsis Section */
 #synopsis {
     background-color: var(--darkgrey-80);
     padding: 2vw;
@@ -189,6 +191,7 @@ h1, h2 {
     background-color: var(--blue);
 }
 
+/* Buy Section */
 #buy {
     background-color: var(--blackish-80);
     padding: 2em 1em;
@@ -226,6 +229,7 @@ h1, h2 {
     box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
 }
 
+/* Reviews Section */
 #reviews {
     margin-top: 2em;
     padding: 1vw;
@@ -286,6 +290,7 @@ h1, h2 {
     text-decoration: underline;
 }
 
+/* Gallery Section */
 #gallery {
     position: relative;
     overflow: hidden;
@@ -294,6 +299,7 @@ h1, h2 {
     text-align: center;
 }
 
+/* Contact Section */
 #contact {
     opacity: 1;
     background-color: var(--darkgrey-80);
@@ -324,19 +330,20 @@ h1, h2 {
     color: var(--blue);
 }
 
-
+/* Miscellaneous */
 .copyblock {
     text-align: left;
     padding: 10px;
 }
 
+/* Media Queries */
 @media (max-width: 768px) {
     #buy ul {
         flex-direction: column;
     }
 
     #intro p {
-        font-size: 4.5vw;
+        font-size: 3.5vw;
     }
 
     #intro h1 {
@@ -350,7 +357,11 @@ h1, h2 {
 
     #synopsis p {
         font-size: 3vw;
-    }    
+    }
+
+    .byline {
+        font-size: 4.5vw
+    }
 }
 
 @media (max-width: 500px) {
@@ -379,20 +390,5 @@ h1, h2 {
 @media (min-width: 500px) {
     .intro-image {
         flex-direction: row;
-    }
-}
-
-@media (max-width: 500px) {
-
-}
-
-@keyframes fadeInImmediate {
-    0% {
-        opacity: 0;
-        transform: translateY(50px);
-    }
-    100% {
-        opacity: 1;
-        transform: translateY(0);
     }
 }
