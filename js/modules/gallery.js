@@ -5,7 +5,7 @@ const settings = {
     openable: true,
     closeDelayTimeout: null,
     canOpenLightbox: true,
-    lightboxReopenDelay: 150,
+    lightboxReopenDelay: 250,
     debug: false,
     original: {}
 };
@@ -80,15 +80,25 @@ const openLightbox = (src, caption) => {
     const lightbox = document.createElement('div');
     lightbox.className = 'lightbox';
 
-    const lightboxContent = `
-        <div class="lightbox-content">
-            <img src="${src}" alt="${caption}">
-            <div class="lightbox-caption">${caption}</div>
-            <button class="lightbox-close">&times;</button>
-        </div>
-    `;
+    const img = document.createElement('img');
+    img.src = src;
+    img.alt = caption;
 
-    lightbox.innerHTML = lightboxContent;
+    const captionDiv = document.createElement('div');
+    captionDiv.className = 'lightbox-caption';
+    captionDiv.textContent = caption;
+
+    const closeButton = document.createElement('button');
+    closeButton.className = 'lightbox-close';
+    closeButton.textContent = 'x';
+
+    const lightboxContent = document.createElement('div');
+    lightboxContent.className = 'lightbox-content';
+    lightboxContent.appendChild(img);
+    lightboxContent.appendChild(captionDiv);
+    lightboxContent.appendChild(closeButton);
+
+    lightbox.appendChild(lightboxContent);
     document.body.appendChild(lightbox);
 
     window.addEventListener("keydown", keyboardControls);
