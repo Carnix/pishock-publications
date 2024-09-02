@@ -87,7 +87,7 @@ h1, h2 {
 
 #intro h1 {
     font-size: 2.5em;
-    letter-spacing: 2px;
+    letter-spacing: 12px;
     margin-bottom: 0.5em;
 }
 
@@ -95,26 +95,13 @@ h1, h2 {
     font-size: 2vw;
 }
 
-@media (max-width: 768px) {
-    #intro p {
-        font-size: 3vw;
-    }
-}
-
-@media (max-width: 500px) {
-    #intro p {
-        font-size: 4.5vw;
-    }
-}
-
-
 #intro h1 {
-    font-size: 8vw;
+    font-size: 12vw;
     text-align: center;
 }
 
 #intro h1 span {
-    line-height: 7vw;
+    line-height: 10vw;
     font-variant: small-caps;
     display: block;
 }
@@ -203,6 +190,9 @@ h1, h2 {
 }
 
 @media (max-width: 500px) {
+    #synopsis {
+        padding-bottom: 5vw;
+    }
     #synopsis p {
         font-size: 4.5vw;
     }
@@ -364,14 +354,35 @@ h1, h2 {
         flex-direction: column;
     }
 
-    #intro h1 {
-        font-size: 2em;
+    #intro p {
+        font-size: 4.5vw;
     }
 
-    #intro p {
-        font-size: 1em;
+    #intro h1 {
+        font-size: 16vw;
+        letter-spacing: 7px;
+    }    
+
+    #intro h1 span {
+        line-height: 12vw;
     }
 }
+
+@media (max-width: 500px) {
+    #intro p {
+        font-size: 4.5vw;
+    }
+
+    #intro h1 {
+        font-size: 16vw;
+        letter-spacing: 7px;
+    }    
+
+    #intro h1 span {
+        line-height: 12vw;
+    }
+}
+
 
 @keyframes fadeInImmediate {
     0% {
