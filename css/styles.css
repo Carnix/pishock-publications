@@ -84,6 +84,7 @@ section.visible {
 h1, h2 {
     color: var(--whiteish-90);
     margin-bottom: 0.5em;
+    font-size: 5em;
 }
 
 /* Intro Section */
@@ -190,6 +191,36 @@ h1, h2 {
 #synopsis button:hover {
     background-color: var(--blue);
 }
+
+
+/* Event Section */
+#events {
+    background-color: var(--darkgrey-80);
+    padding: 2vw;
+}
+
+#events .event .event-title {
+    font-size: 2.5em;
+    font-weight: 700;
+}
+
+#events .event .event-date {
+    font-size: 2em;
+}
+
+#events .event .event-address {
+    font-size: 2em;
+}
+
+#events .event .event-image {
+    font-size: 2em;
+}
+
+#events .event .event-image img {
+    width: 100%;
+    max-width: 550px;
+}
+
 
 /* Buy Section */
 #buy {
