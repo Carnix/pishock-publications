@@ -18,8 +18,8 @@
 
     --mediumgrey: #999;
     --darkgrey: #333;
-    --darkgrey-80: rgba(46, 46, 46, 0.8);
 
+    --darkgrey-80: rgba(46, 46, 46, 0.8);
     --darkgreybg-80: rgba(28, 28, 28, 0.8);
 
     --greyshadow: rgba(55, 55, 55, 0.3);
@@ -197,6 +197,10 @@ h1, h2 {
 #events {
     background-color: var(--darkgrey-80);
     padding: 2vw;
+}
+
+#events .event:nth-of-type(even) {
+    background-color: var(--darkgreybg-80);
 }
 
 #events .event .event-title {
