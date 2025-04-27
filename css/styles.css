@@ -1,37 +1,45 @@
 @import url(gallery.css);
 @import url(lightbox.css);
 
-/* Color Variables */
 :root {
+ 
     --black: #000;
     --blackish-90: rgba(0, 0, 0, 0.90);
     --blackish-80: rgba(0, 0, 0, 0.8);
     --blackish-60: rgba(0, 0, 0, 0.60);
     --blackish-50: rgba(0, 0, 0, 0.50);
 
-    --white: #fff;
-    --whiteish-90: rgba(255, 255, 255, 0.9);
+    --blackshadow-10: rgba(0, 0, 0, 0.1);
+    --blackshadow-20: rgba(0, 0, 0, 0.2);
+    --blackshadow-70: rgba(0, 0, 0, 0.7);
+
+    --blue: #1976d2;
+
+    --darkgrey: #333;
+    --darkgrey-80: rgba(46, 46, 46, 0.8);
+    --darkgreybg-80: rgba(28, 28, 28, 0.8);
+
+    --greyish-60: rgba(153, 153, 153, 0.6);
+    --greyish-40: rgba(153, 153, 153, 0.4);
+    --greyshadow: rgba(55, 55, 55, 0.3);
 
     --lightgrey: #ccc;
     --lightgrey-90: rgba(245, 245, 245, 0.9);
     --lightgrey-20: rgba(245, 245, 245, 0.2);
 
     --mediumgrey: #999;
-    --darkgrey: #333;
-
-    --darkgrey-80: rgba(46, 46, 46, 0.8);
-    --darkgreybg-80: rgba(28, 28, 28, 0.8);
-
-    --greyshadow: rgba(55, 55, 55, 0.3);
-    --blackshadow: rgba(0, 0, 0, 0.7);
 
     --red: #d32f2f;
-    --blue: #1976d2;
+
+    --white: #fff;
+    --whiteish-90: rgba(255, 255, 255, 0.9);
+
+    --border-radius-default: 8px;
+    --border-radius-small: 5px;
 
     --bgimage: url('../img/cover_nowords_1563x2500.jpg');
 }
 
-/* Base Styles */
 * {
     margin: 0;
     padding: 0;
@@ -57,8 +65,8 @@ section {
     padding: 4em 0;
     text-align: center;
     background-color: var(--darkgreybg-80);
-    box-shadow: 0 0 10px var(--blackshadow);
-    border-radius: 8px;
+    box-shadow: 0 0 10px var(--blackshadow-70);
+    border-radius: var(--border-radius-default);
     margin-bottom: 2em;
     opacity: 0;
     transform: translateY(50px);
@@ -87,7 +95,6 @@ h1, h2 {
     font-size: 5em;
 }
 
-/* Intro Section */
 #intro {
     padding: 6em 1em 1em 1em;
     color: var(--whiteish-90);
@@ -144,7 +151,6 @@ h1, h2 {
     object-fit: cover;
 }
 
-/* Typography */
 .titlify {
     background: linear-gradient(to bottom, var(--mediumgrey), var(--white));
     -webkit-background-clip: text;
@@ -164,7 +170,6 @@ h1, h2 {
     margin: 15px 0px;
 }
 
-/* Synopsis Section */
 #synopsis {
     background-color: var(--darkgrey-80);
     padding: 2vw;
@@ -192,8 +197,6 @@ h1, h2 {
     background-color: var(--blue);
 }
 
-
-/* Event Section */
 #events {
     background-color: var(--darkgrey-80);
     padding: 2vw;
@@ -225,8 +228,6 @@ h1, h2 {
     max-width: 550px;
 }
 
-
-/* Buy Section */
 #buy {
     background-color: var(--blackish-80);
     padding: 2em 1em;
@@ -245,13 +246,13 @@ h1, h2 {
     background-color: var(--blue);
     color: var(--white);
     padding: 0.75em 1.5em;
-    border-radius: 5px;
+    border-radius: var(--border-radius-small);
     font-size: 1.2em;
     text-transform: uppercase;
     text-decoration: none;
     transition: background-color 0.3s ease, transform 0.2s ease;
     display: inline-block;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    box-shadow: 0 4px 6px var(--blackshadow-10);
 }
 
 .buy-button:hover {
@@ -261,16 +262,15 @@ h1, h2 {
 
 .buy-button:active {
     transform: translateY(0);
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    box-shadow: 0 2px 4px var(--blackshadow-20);
 }
 
-/* Reviews Section */
 #reviews {
     margin-top: 2em;
     padding: 1vw;
     background-color: var(--blackish-60);
-    border-radius: 8px;
-    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    border-radius: var(--border-radius-default);
+    box-shadow: 0 4px 6px var(--blackshadow-10);
 }
 
 #reviews h3 {
@@ -325,7 +325,6 @@ h1, h2 {
     text-decoration: underline;
 }
 
-/* Gallery Section */
 #gallery {
     position: relative;
     overflow: hidden;
@@ -334,7 +333,6 @@ h1, h2 {
     text-align: center;
 }
 
-/* Contact Section */
 #contact {
     opacity: 1;
     background-color: var(--darkgrey-80);
@@ -365,13 +363,11 @@ h1, h2 {
     color: var(--blue);
 }
 
-/* Miscellaneous */
 .copyblock {
     text-align: left;
     padding: 10px;
 }
 
-/* Media Queries */
 @media (max-width: 768px) {
     #buy ul {
         flex-direction: column;
@@ -395,7 +391,7 @@ h1, h2 {
     }
 
     .byline {
-        font-size: 4.5vw
+        font-size: 4.5vw;
     }
 }
 
