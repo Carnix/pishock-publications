@@ -14,6 +14,7 @@
     --blackshadow-70: rgba(0, 0, 0, 0.7);
 
     --blue: #1976d2;
+    --lightblue: #5fafff;
 
     --darkgrey: #333;
     --darkgrey-80: rgba(46, 46, 46, 0.8);
@@ -46,17 +47,23 @@
     box-sizing: border-box;
 }
 
+a {
+    color: var(--lightblue);
+    text-decoration: none;
+    transition: color 0.3s ease;
+}
+
 html {
     scroll-behavior: smooth;
 }
 
 body {
     font-family: Garamond, Arial, sans-serif;
-    background-color: var(--darkgreybg-80);
     color: var(--lightgrey-90);
     line-height: 1.6;
     padding: 0 1em;
     background: var(--bgimage) top center no-repeat;
+    background-color: var(--darkgreybg-80);
     background-size: cover;
     background-attachment: fixed;
 }
@@ -316,7 +323,7 @@ h1, h2 {
 }
 
 .review-text a.read-full {
-    color: var(--blue);
+    color: var(--lightblue);
     text-decoration: none;
     font-weight: bold;
 }
