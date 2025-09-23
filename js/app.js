@@ -7,6 +7,7 @@
 
 import { initScrollEffects } from './modules/scrollEffects.js';
 import { loadGallery } from './modules/gallery.js';
+import { initEventsToggle } from './modules/eventsToggle.js';
 
 /**
  * Loads the gallery configuration from a JSON file and initializes scroll effects.
@@ -23,6 +24,9 @@ const initializeApp = async () => {
 
     // Initialize scroll effects
     initScrollEffects();
+    
+    // Initialize events toggle functionality
+    initEventsToggle();
 };
 
 // Execute the initialization function
