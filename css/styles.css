@@ -209,6 +209,16 @@ h1, h2 {
     padding: 2vw;
 }
 
+#events .section-description {
+    font-size: 1.5em;
+    color: var(--lightgrey);
+    margin-bottom: 2em;
+    text-align: center;
+    max-width: 800px;
+    margin-left: auto;
+    margin-right: auto;
+}
+
 #events .event:nth-of-type(even) {
     background-color: var(--darkgreybg-80);
 }
@@ -233,6 +243,73 @@ h1, h2 {
 #events .event .event-image img {
     width: 100%;
     max-width: 550px;
+}
+
+/* Past Events Toggle Styles */
+.past-events-toggle {
+    margin-top: 3em;
+    margin-bottom: 2em;
+    text-align: center;
+}
+
+.toggle-button {
+    background-color: var(--blue);
+    color: var(--white);
+    border: none;
+    padding: 1em 2em;
+    font-size: 1.2em;
+    border-radius: var(--border-radius-default);
+    cursor: pointer;
+    transition: background-color 0.3s ease, transform 0.2s ease;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5em;
+    box-shadow: 0 4px 6px var(--blackshadow-10);
+}
+
+.toggle-button:hover {
+    background-color: var(--red);
+    transform: translateY(-2px);
+}
+
+.toggle-button:focus {
+    outline: 2px solid var(--lightblue);
+    outline-offset: 2px;
+}
+
+.toggle-button:active {
+    transform: translateY(0);
+    box-shadow: 0 2px 4px var(--blackshadow-20);
+}
+
+.toggle-icon {
+    transition: transform 0.3s ease;
+    font-size: 0.8em;
+}
+
+.toggle-button[aria-expanded="true"] .toggle-icon {
+    transform: rotate(180deg);
+}
+
+/* Past Events Section */
+.past-events {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
+    opacity: 0;
+}
+
+.past-events.show {
+    max-height: 1000px;
+    opacity: 1;
+    transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
+}
+
+.past-events h3 {
+    color: var(--whiteish-90);
+    font-size: 2em;
+    margin-bottom: 1em;
+    text-align: center;
 }
 
 #buy {
@@ -400,6 +477,30 @@ h1, h2 {
     .byline {
         font-size: 4.5vw;
     }
+    
+    /* Mobile-specific events styling */
+    #events .section-description {
+        font-size: 3.5vw;
+        padding: 0 1em;
+    }
+    
+    .toggle-button {
+        font-size: 4vw;
+        padding: 0.8em 1.5em;
+        min-height: 44px; /* Ensure touch target size */
+    }
+    
+    #events .event .event-title {
+        font-size: 5vw;
+    }
+    
+    #events .event .event-date {
+        font-size: 4vw;
+    }
+    
+    #events .event .event-address {
+        font-size: 4vw;
+    }
 }
 
 @media (max-width: 500px) {
@@ -421,6 +522,28 @@ h1, h2 {
     }
 
     #synopsis p {
+        font-size: 4.5vw;
+    }
+    
+    /* Extra small mobile adjustments */
+    #events .section-description {
+        font-size: 4.5vw;
+    }
+    
+    .toggle-button {
+        font-size: 4.5vw;
+        padding: 1em 1.2em;
+    }
+    
+    #events .event .event-title {
+        font-size: 6vw;
+    }
+    
+    #events .event .event-date {
+        font-size: 4.5vw;
+    }
+    
+    #events .event .event-address {
         font-size: 4.5vw;
     }
 }
