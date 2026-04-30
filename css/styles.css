@@ -240,15 +240,90 @@ h1, h2 {
     font-size: 2em;
 }
 
+.podcast-embed {
+    padding: 0.5em 1em;
+    max-width: 500px;
+    margin: 0 auto;
+}
+
+.podcast-embed iframe {
+    border-radius: 12px;
+    display: block;
+}
+
+.youtube-thumbnail-wrap {
+    position: relative;
+    cursor: pointer;
+    border-radius: 12px;
+    overflow: hidden;
+}
+
+.youtube-thumbnail-wrap img {
+    width: 100%;
+    display: block;
+    aspect-ratio: 16 / 9;
+    object-fit: cover;
+    transition: opacity 0.2s ease;
+}
+
+.youtube-thumbnail-wrap:hover img {
+    opacity: 0.85;
+}
+
+.youtube-play-btn {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    background: rgba(200, 0, 0, 0.9);
+    border: none;
+    border-radius: 50%;
+    width: 60px;
+    height: 60px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 0.2s ease, transform 0.2s ease;
+    pointer-events: none;
+}
+
+.youtube-thumbnail-wrap:hover .youtube-play-btn {
+    background: rgb(220, 0, 0);
+    transform: translate(-50%, -50%) scale(1.1);
+}
+
+.youtube-play-icon {
+    color: var(--white);
+    font-size: 1.3em;
+    margin-left: 4px;
+}
+
+.podcast-youtube-label {
+    display: block;
+    color: var(--lightgrey);
+    margin-top: 0.5em;
+    font-size: 1.1em;
+}
+
+.youtube-embed-iframe {
+    border-radius: 12px;
+    display: block;
+    width: 100%;
+    aspect-ratio: 16 / 9;
+    border: none;
+}
+
 #events .event .event-image img {
     width: 100%;
     max-width: 550px;
 }
 
 /* Past Events Toggle Styles */
-.past-events-toggle {
-    margin-top: 3em;
-    margin-bottom: 2em;
+.past-events-toggle,
+.more-podcasts-toggle {
+    margin-top: 2em;
+    margin-bottom: 1em;
     text-align: center;
 }
 
@@ -292,15 +367,17 @@ h1, h2 {
 }
 
 /* Past Events Section */
-.past-events {
+.past-events,
+.more-podcasts {
     max-height: 0;
     overflow: hidden;
     transition: max-height 0.5s ease-out, opacity 0.3s ease-out;
     opacity: 0;
 }
 
-.past-events.show {
-    max-height: 1000px;
+.past-events.show,
+.more-podcasts.show {
+    max-height: 1500px;
     opacity: 1;
     transition: max-height 0.5s ease-in, opacity 0.3s ease-in;
 }

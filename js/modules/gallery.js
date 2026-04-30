@@ -24,6 +24,7 @@ const settings = {
     closeDelayTimeout: null,
     canOpenLightbox: true,
     lightboxReopenDelay: 250,
+    isTouchSwipe: false,
     debug: false,
     original: {}
 };
@@ -124,12 +125,24 @@ const openLightbox = (src, caption, index) => {
     lightbox.appendChild(lightboxContent);
     document.body.appendChild(lightbox);
 
+    const syncContentWidth = () => {
+        lightboxContent.style.width = img.offsetWidth + 'px';
+    };
+    img.addEventListener('load', syncContentWidth);
+    if (img.complete) syncContentWidth();
+
     window.addEventListener('keydown', keyboardControls);
     window.addEventListener('touchstart', handleTouchStart);
     window.addEventListener('touchmove', handleTouchMove);
     window.addEventListener('touchend', handleTouchEnd);
 
-    img.addEventListener('click', show);
+    img.addEventListener('click', (e) => {
+        if (settings.isTouchSwipe) {
+            settings.isTouchSwipe = false;
+            return;
+        }
+        show(e);
+    });
 
     lightbox.querySelector('.lightbox-close').addEventListener('click', () => {
         console.log('click close');
@@ -202,6 +215,8 @@ const handleTouchStart = (event) => {
         return;
     }
     settings.startX = event.touches[0].clientX;
+    settings.endX = event.touches[0].clientX;  // match startX so a tap produces zero delta
+    settings.isTouchSwipe = false;
     settings.isOpen = true;
 };
 
@@ -223,7 +238,12 @@ const handleTouchMove = (event) => {
 const handleTouchEnd = (event) => {
     if (event.touches.length > 1) { return; }
     if (settings.isOpen === true) {
-        show(Math.sign(settings.startX - settings.endX));
+        const direction = Math.sign(settings.startX - settings.endX);
+        if (direction !== 0) {
+            settings.isTouchSwipe = true;
+            show(direction);
+        }
+        // tap (direction === 0) falls through to the click handler
     }
     settings.startX = 0;
     settings.endX = 0;
