@@ -13,12 +13,15 @@
 
 .lightbox-content {
     position: relative;
-    max-width: 100vw;
-    max-height: 100vh;
+    width: fit-content;
+    max-width: 90vw;
+    max-height: 90vh;
 }
 
 .lightbox img {
-    width: 100%;
+    max-width: 100%;
+    max-height: calc(90vh - 4em);
+    width: auto;
     height: auto;
     display: block;
 }

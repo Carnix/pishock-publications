@@ -8,6 +8,7 @@
 import { initScrollEffects } from './modules/scrollEffects.js';
 import { loadGallery } from './modules/gallery.js';
 import { initEventsToggle } from './modules/eventsToggle.js';
+import { initYoutubeEmbeds } from './modules/youtubeEmbed.js';
 
 /**
  * Loads the gallery configuration from a JSON file and initializes scroll effects.
@@ -27,6 +28,9 @@ const initializeApp = async () => {
     
     // Initialize events toggle functionality
     initEventsToggle();
+
+    // Initialize YouTube embed players
+    initYoutubeEmbeds();
 };
 
 // Execute the initialization function
