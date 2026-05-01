@@ -1,5 +1,8 @@
 #custom
 *.xcf
+.claude
+.claude/*
+
 
 # Logs
 logs

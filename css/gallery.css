@@ -1,7 +1,9 @@
 #gallery ol {
-    display: inline-flex;
+    display: flex;
     flex-direction: row;
     flex-wrap: wrap;
+    justify-content: center;
+    width: 100%;
 }
 
 #gallery ol li {
@@ -20,4 +22,16 @@
     height: 100%;
     object-fit: cover;
     cursor: pointer;
+}
+
+@media (max-width: 768px) {
+    #gallery li {
+        width: 33.333%;
+    }
+}
+
+@media (max-width: 480px) {
+    #gallery li {
+        width: 50%;
+    }
 }
